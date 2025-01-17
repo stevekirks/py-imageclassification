@@ -21,10 +21,12 @@ There's a jupyter notebook in the test folder that can be used for testing.
 
 ### Azure
 For deployment to an Azure Web App for Containers, these az cli commands can help:
-Build image and push to container registry
+
+Build image and push to container registry:
 ```powershell
 az acr build --registry myregistry --image myregistry.azurecr.io/imgdet:latest .
 ```
+
 Get web app to use latest container. Hacky (to avoid thinking about versions).
 ```powershell
 az webapp config container set --name mywebapp --resource-group myresourcegroup --container-image-name myregistry.azurecr.io/imgdet:0.0.999
