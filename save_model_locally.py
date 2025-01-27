@@ -9,7 +9,7 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-model_path = "./data"
+model_path = "./data/models"
 
 os.makedirs(model_path, exist_ok=True)
 

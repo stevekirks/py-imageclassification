@@ -30,10 +30,13 @@ def load_model_and_labels(model_path: Path = None) -> tuple[SentenceTransformer,
     else:
         full_model_path = f"{model_path}/{model_name}"
 
+    logging.info(f"Loading model {full_model_path}")
     en_model = SentenceTransformer(full_model_path)
 
+    logging.debug(f"Encoding labels")
     en_emb = en_model.encode(labels, convert_to_tensor=True)
 
+    logging.info(f"Model and labels loaded")
     return en_model, en_emb
     
 def classify_image(image: Image, en_model: SentenceTransformer, en_emb: torch.Tensor) -> list[tuple[str, float]]:

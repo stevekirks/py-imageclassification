@@ -37,7 +37,7 @@ except Exception as e:
 @app.get("/test")
 async def test_endpoint(api_key: str = Depends(verify_api_key)):
     logger.info("Test endpoint accessed.")
-    return {"message": "Test endpoint working!!"}
+    return {"message": "Test endpoint working"}
 
 @app.post("/image-classify")
 async def image_size(file: UploadFile = File(...), api_key: str = Depends(verify_api_key)):
