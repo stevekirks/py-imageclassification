@@ -4,9 +4,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException, Header, Depends
 from pathlib import Path
 from PIL import Image
 import logging
-from .file_operations import read_file
-from .utils import get_image_size
-from .image_service import load_model, classify_image, save_model
+from .image_service import load_model_and_labels, classify_image
 
 async def verify_api_key(x_api_key: str = Header(...)):
     expected_api_key = os.getenv("IMGDET_API_KEY", "myapikey321")
@@ -28,13 +26,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Set up model
+# Set up model once on startup
 try:
-    # logger.info(f"Saving model")
-    # save_model()
     model_path = volume_path / "models"
     logger.info(f"Loading model from {model_path}")
-    en_model, en_emb = load_model(model_path)
+    en_model, en_emb = load_model_and_labels(model_path)
 except Exception as e:
     logger.error(f"Error loading model: {e}", exc_info=True)
 

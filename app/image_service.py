@@ -24,11 +24,14 @@ labels = [
     'deceased animal'
     ]
 
-def load_model(model_path) -> tuple[SentenceTransformer, torch.Tensor]:
-    # Load the model globally to avoid reloading on each function call
-    en_model = SentenceTransformer(str(model_path / model_name))
+def load_model_and_labels(model_path: Path = None) -> tuple[SentenceTransformer, torch.Tensor]:
+    if not model_path:
+        full_model_path = model_name
+    else:
+        full_model_path = f"{model_path}/{model_name}"
 
-    # Define the labels once for simplicity
+    en_model = SentenceTransformer(full_model_path)
+
     en_emb = en_model.encode(labels, convert_to_tensor=True)
 
     return en_model, en_emb
@@ -47,8 +50,9 @@ def classify_image(image: Image, en_model: SentenceTransformer, en_emb: torch.Te
 
     return result
 
-def save_model():
-    en_model, en_emb = load_model()
-    model_path = f"/volume/models/{model_name}"
-    logging.info(f"Saving model to {model_path}")
-    en_model.save(model_path)
+def save_model(model_path: str = "/volume/models") -> None:
+    en_model, en_emb = load_model_and_labels()
+    full_model_path = f"{model_path}/{model_name}"
+    logging.info(f"Saving model to {full_model_path}")
+    en_model.save(full_model_path)
+    logging.info(f"Model saved to {full_model_path}")

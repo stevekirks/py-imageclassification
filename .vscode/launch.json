@@ -13,6 +13,13 @@
                 "8080"
             ],
             "jinja": true
+        },
+        {
+            "name": "Run Current Script",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
         }
     ]
 }
